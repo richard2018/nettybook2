@@ -19,8 +19,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 /**
  * @author lilinfeng
@@ -29,9 +30,7 @@ import java.util.logging.Logger;
  */
 public class TimeClientHandler extends ChannelHandlerAdapter {
 
-    private static final Logger logger = Logger
-	    .getLogger(TimeClientHandler.class.getName());
-
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ByteBuf firstMessage;
 
     /**
@@ -62,7 +61,7 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 	// 释放资源
-	logger.warning("Unexpected exception from downstream : "
+	logger.warn("Unexpected exception from downstream : "
 		+ cause.getMessage());
 	ctx.close();
     }

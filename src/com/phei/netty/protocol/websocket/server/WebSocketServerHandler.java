@@ -15,10 +15,6 @@
  */
 package com.phei.netty.protocol.websocket.server;
 
-import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
-import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
-import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -28,17 +24,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
-import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
+import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * @author lilinfeng
@@ -46,9 +39,7 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> {
-    private static final Logger logger = Logger
-	    .getLogger(WebSocketServerHandler.class.getName());
-
+	protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
     private WebSocketServerHandshaker handshaker;
 
     @Override
@@ -115,9 +106,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
 	// 返回应答消息
 	String request = ((TextWebSocketFrame) frame).text();
-	if (logger.isLoggable(Level.FINE)) {
-	    logger.fine(String.format("%s received %s", ctx.channel(), request));
-	}
+	    logger.warn(String.format("%s received %s", ctx.channel(), request));
 	ctx.channel().write(
 		new TextWebSocketFrame(request
 			+ " , 欢迎使用Netty WebSocket服务，现在时刻："

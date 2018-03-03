@@ -34,6 +34,7 @@ public class SubReqServerHandler extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg)
 	    throws Exception {
 	SubscribeReq req = (SubscribeReq) msg;
+		System.out.println("req: " + req);
 	if ("Lilinfeng".equalsIgnoreCase(req.getUserName())) {
 	    System.out.println("Service accept client subscrib req : ["
 		    + req.toString() + "]");

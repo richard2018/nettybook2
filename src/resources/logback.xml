@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="60 seconds">
+    <contextName>nettybook2</contextName>
+    <property scope="context" name="CHARSET" value="utf-8" />
+
+    <property scope="context" name="appName" value="nettybook2"/>
+
+    <property scope="context" name="CONSOLE_PATTERN" value='%d{yyyy-MM-dd HH:mm:ss.SSS}-[${HOSTNAME}]-[%thread]-[%level]-%C\:%M:%L-%msg %ex{full}%n' />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

@@ -15,20 +15,19 @@
  */
 package com.phei.netty.protocol.netty.server;
 
+import com.phei.netty.protocol.netty.MessageType;
+import com.phei.netty.protocol.netty.struct.Header;
+import com.phei.netty.protocol.netty.struct.NettyMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.phei.netty.protocol.netty.MessageType;
-import com.phei.netty.protocol.netty.struct.Header;
-import com.phei.netty.protocol.netty.struct.NettyMessage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lilinfeng
@@ -37,8 +36,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 
-	private final static Log LOG = LogFactory.getLog(LoginAuthRespHandler.class);
-
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private Map<String, Boolean> nodeCheck = new ConcurrentHashMap<String, Boolean>();
     private String[] whitekList = { "127.0.0.1", "192.168.1.104" };
 
@@ -78,7 +76,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 		if (isOK)
 		    nodeCheck.put(nodeIndex, true);
 	    }
-	    LOG.info("The login response is : " + loginResp
+	    logger.info("The login response is : " + loginResp
 		    + " body [" + loginResp.getBody() + "]");
 	    ctx.writeAndFlush(loginResp);
 	} else {

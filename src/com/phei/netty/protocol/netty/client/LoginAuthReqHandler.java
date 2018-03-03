@@ -15,16 +15,15 @@
  */
 package com.phei.netty.protocol.netty.client;
 
+import com.phei.netty.protocol.netty.MessageType;
+import com.phei.netty.protocol.netty.struct.Header;
+import com.phei.netty.protocol.netty.struct.NettyMessage;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
-
-import com.phei.netty.protocol.netty.MessageType;
-import com.phei.netty.protocol.netty.struct.Header;
-import com.phei.netty.protocol.netty.struct.NettyMessage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Lilinfeng
@@ -33,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class LoginAuthReqHandler extends ChannelHandlerAdapter {
 
-    private static final Log LOG = LogFactory.getLog(LoginAuthReqHandler.class);
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Calls {@link ChannelHandlerContext#fireChannelActive()} to forward to the
@@ -66,7 +65,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
                 // 握手失败，关闭连接
                 ctx.close();
             } else {
-                LOG.info("Login is ok : " + message);
+                logger.info("Login is ok : " + message);
                 ctx.fireChannelRead(msg);
             }
         } else

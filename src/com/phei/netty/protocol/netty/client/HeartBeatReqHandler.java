@@ -15,17 +15,16 @@
  */
 package com.phei.netty.protocol.netty.client;
 
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import com.phei.netty.protocol.netty.MessageType;
 import com.phei.netty.protocol.netty.struct.Header;
 import com.phei.netty.protocol.netty.struct.NettyMessage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Lilinfeng
@@ -34,14 +33,14 @@ import org.apache.commons.logging.LogFactory;
  */
 public class HeartBeatReqHandler extends ChannelHandlerAdapter {
 
-    private static final Log LOG = LogFactory.getLog(HeartBeatReqHandler.class);
-
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private volatile ScheduledFuture<?> heartBeat;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
+        System.out.println("Header Type : " + message.getHeader().getType());
         // 握手成功，主动发送心跳消息
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.LOGIN_RESP
@@ -52,7 +51,7 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
         } else if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.HEARTBEAT_RESP
                 .value()) {
-            LOG.info("Client receive server heart beat message : ---> "
+            logger.info("Client receive server heart beat message : ---> "
                             + message);
         } else
             ctx.fireChannelRead(msg);
@@ -68,7 +67,7 @@ public class HeartBeatReqHandler extends ChannelHandlerAdapter {
         @Override
         public void run() {
             NettyMessage heatBeat = buildHeatBeat();
-            LOG.info("Client send heart beat messsage to server : ---> "
+            logger.info("Client send heart beat messsage to server : ---> "
                             + heatBeat);
             ctx.writeAndFlush(heatBeat);
         }
