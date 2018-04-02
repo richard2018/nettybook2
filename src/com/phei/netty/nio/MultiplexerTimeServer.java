@@ -119,6 +119,7 @@ public class MultiplexerTimeServer implements Runnable {
                 ByteBuffer readBuffer = ByteBuffer.allocate(1024);
                 int readBytes = sc.read(readBuffer);
                 if (readBytes > 0) {
+
                     readBuffer.flip();
                     byte[] bytes = new byte[readBuffer.remaining()];
                     readBuffer.get(bytes);
@@ -134,7 +135,9 @@ public class MultiplexerTimeServer implements Runnable {
                     // 对端链路关闭
                     key.cancel();
                     sc.close();
-                } else
+                } else {
+                    System.out.println("未读取到数据....");
+                }
                     ; // 读到0字节，忽略
             }
         }

@@ -35,7 +35,10 @@ public class TimeClient {
 		// 采用默认值
 	    }
 	}
-	new Thread(new TimeClientHandle("127.0.0.1", port), "TimeClient-001")
-		.start();
+	int i = 0;
+	while (i++ < 10000) {
+		new Thread(new TimeClientHandle("127.0.0.1", port), "TimeClient-001")
+			.start();
+	}
     }
 }
